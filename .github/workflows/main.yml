@@ -10,5 +10,9 @@ jobs:
         shell: bash
       - run: ls -la
         shell: bash
+      - id: my_action
+        uses: ./.github/actions/a_composite001
+        with:
+          who-to-greet: 'Mona the Octocat'
       - run: echo random-number ${{ steps.my_action.outputs.random-number }}
         shell: bash
