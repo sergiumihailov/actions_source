@@ -23,5 +23,5 @@ runs:
       shell: bash          
     - run: ls -la
       shell: bash 
-    - run: ../../../composite001/goodbye.sh
+    - run: ./composite001/goodbye.sh
       shell: bash
