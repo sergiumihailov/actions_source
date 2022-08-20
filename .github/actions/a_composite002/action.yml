@@ -16,6 +16,9 @@ runs:
   - name: 'Get current date'
     id: get_date
     run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H_%M_%S')"
+  - name: 'Print Environment Variables'
+    run: echo "$GITHUB_ENV"
+    GITHUB_ENV
   # Build image based on Dockerfile and puch to ACR
   - name: 'Build base image'
     run: docker build ./${{ env.APP_SOURCE_DIRECTORY }} -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}-${{ steps.get_date.outputs.date }}
