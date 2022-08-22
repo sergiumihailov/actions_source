@@ -1,0 +1,46 @@
+name: 'Build Docker Image'
+description: 'Build Docker Image'
+inputs:
+  app_source_directory:
+    description: 'Dockerfile location'
+    required: false
+    default: './composire002'
+  registry_login_server:
+    description: 'Ex: acrsergiupoc.azurecr.io'
+    required: false
+    default: 'acrsergiupoc.azurecr.io'
+  registry_username:
+    description: 'Azure app ID'
+    required: true
+  registry_password:
+    description: 'Azure app secret'
+    required: true
+outputs:
+  date:
+    description: "Get Current date and time"
+    value: ${{ steps.get_date.outputs.date }}
+runs:
+  using: "composite"
+  steps:
+  # Get date and time to use in image tag
+  - name: 'Get current date'
+    id: get_date
+    run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H_%M_%S')"
+    shell: bash
+  - name: 'Print Environment Variables'
+    run: echo "$GITHUB_ENV"
+    shell: bash
+  # Build image based on Dockerfile and puch to ACR
+  - name: 'Build base image'
+    run: docker build ./${{ inputs.app_source_directory }} -t ${{ inputs.registry_login_server }}/sampleapp:${{ github.sha }}-${{ steps.get_date.outputs.date }}
+    shell: bash
+  - name: 'Docker Login with Azure SP'
+    run: echo "${{ inputs.registry_password }}" | docker login -u ${{ inputs.registry_username }} ${{ inputs.registry_login_server }} --password-stdin
+    shell: bash
+  - name: 'Push image to ACR'
+    run: docker push ${{ inputs.registry_login_server }}/sampleapp:${{ github.sha }}-${{ steps.get_date.outputs.date }}
+    shell: bash
+  - name: 'Output image tag'
+    id: image_tag
+    run: echo "::set-output name=image_tag_output::${{ github.sha }}-${{ steps.get_date.outputs.date }}"
+    shell: bash
