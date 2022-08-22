@@ -32,7 +32,7 @@ runs:
     shell: bash
   # Build image based on Dockerfile and puch to ACR
   - name: 'Build base image'
-    run: docker build ./${{ inputs.app_source_directory }} -t ${{ inputs.registry_login_server }}/sampleapp:${{ github.sha }}-${{ steps.get_date.outputs.date }}
+    run: docker build ${{ inputs.app_source_directory }} -t ${{ inputs.registry_login_server }}/sampleapp:${{ github.sha }}-${{ steps.get_date.outputs.date }}
     shell: bash
   - name: 'Docker Login with Azure SP'
     run: echo "${{ inputs.registry_password }}" | docker login -u ${{ inputs.registry_username }} ${{ inputs.registry_login_server }} --password-stdin
