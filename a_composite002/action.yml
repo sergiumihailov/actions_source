@@ -29,7 +29,7 @@ runs:
   - name: 'Print current path'
     run: pwd; ls
     shell: bash
-    - name: 'Print GITHUB_WORKSPACE'
+  - name: 'Print GITHUB_WORKSPACE'
     run: echo $GITHUB_WORKSPACE
     shell: bash
   # Build image based on Dockerfile and puch to ACR
