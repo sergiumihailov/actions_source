@@ -3,8 +3,7 @@ description: 'Build Docker Image'
 inputs:
   app_source_directory:
     description: 'Dockerfile location'
-    required: false
-    default: './composire002'
+    required: true
   registry_login_server:
     description: 'Ex: acrsergiupoc.azurecr.io'
     required: false
