@@ -27,8 +27,8 @@ runs:
     id: get_date
     run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H_%M_%S')"
     shell: bash
-  - name: 'Print Environment Variables'
-    run: echo "$GITHUB_ENV"
+  - name: 'Print current path'
+    run: pwd; ls
     shell: bash
   # Build image based on Dockerfile and puch to ACR
   - name: 'Build base image'
