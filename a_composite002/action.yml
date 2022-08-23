@@ -25,7 +25,7 @@ inputs:
     required: true
 outputs:
   date:
-    description: "Get Current date and time"
+    description: 'Get Current date and time'
     value: ${{ steps.get_date.outputs.date }}
 runs:
   using: "composite"
