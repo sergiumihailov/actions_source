@@ -1,13 +1,22 @@
 name: 'Build Docker Image'
 description: 'Build Docker Image'
 inputs:
+  
+  app_image_tag:
+    description: 'Image tag'
+    required: true
+  app_image_name:
+    description: 'Image name'
+    required: true
   app_source_directory:
     description: 'Dockerfile location'
     required: true
+  registry_repository:
+    description: 'Registry folder to store image'
+    required: true
   registry_login_server:
     description: 'Ex: acrsergiupoc.azurecr.io'
-    required: false
-    default: 'acrsergiupoc.azurecr.io'
+    required: true
   registry_username:
     description: 'Azure app ID'
     required: true
@@ -34,7 +43,7 @@ runs:
     shell: bash
   # Build image based on Dockerfile and puch to ACR
   - name: 'Build base image'
-    run: docker build ${{ inputs.app_source_directory }} -t ${{ inputs.registry_login_server }}/sampleapp:${{ github.sha }}-${{ steps.get_date.outputs.date }}
+    run: docker build ${{ inputs.app_source_directory }} -t ${{ inputs.registry_login_server }}/{{ inputs.registry_repository }}:${{ inputs.app_image_name }}-${{ steps.get_date.outputs.date }}_v${{ inputs.app_image_tag }}
     shell: bash
   - name: 'Docker Login with Azure SP'
     run: echo "${{ inputs.registry_password }}" | docker login -u ${{ inputs.registry_username }} ${{ inputs.registry_login_server }} --password-stdin
