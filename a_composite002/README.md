@@ -14,29 +14,29 @@ This GitHub action will create Docker image and push it to ACR
 | registry_password | Azure App Secret: Add to Secrets | :heavy_check_mark: | `*****************` |
 
 # An example of how to use this action in workflow
-1. Create directory where you are planning to store Dockerfile and other image related files 
-2. Add Docker related files to new directory (in example: "./composite002/docker_manifest")
-3. Add new step to your workflow:
+1. Create directory where you are planning to store Dockerfile and other image build related files 
+2. Add Docker and other files to new directory. You can use any file structure and names (example: "./composite002/docker_manifest")
+3. Create new workflow and add below code:
+
 
 ```yaml
-name: Linux_Container_Workflow
+name: Linux_Container_Workflow 
 on:
   push:
     branches:
-    - 'DEVOPS_*'
+    - 'DEVOPS_*' # Change condition
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
-    outputs:
-      image_tag:  ${{ steps.image_tag.outputs.image_tag_output }}
+    runs-on: ubuntu-latest 
+  
     steps:
-    # ACTION: Checkout repo. Tested on v3
+    # ACTION: Checkout repo. Tested on checkout@v3
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@v3
     # ACTION: Build Docker Image and push to ACR
     - name: 'Build Docker Image'
-      uses: sergiumihailov/actions_source/a_composite002@v2.0.5
+      uses: sergiumihailov/actions_source/a_composite002@v2.0.5 #Copy action and use your repo name@version 
       with:
         # INPUTS:           
         app_source_directory: ./composite002/docker_manifest             # Dockerfile location

@@ -33,7 +33,7 @@ runs:
   # Get date and time to use in image tag
   - name: 'Get current date'
     id: get_date
-    run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H_%M_%S')"
+    run: echo "::set-output name=date::$(date +'%H_%M_%d-%m-%Y')"
     shell: bash
   # Build image based on Dockerfile and puch to ACR
   - name: 'Build base image'
